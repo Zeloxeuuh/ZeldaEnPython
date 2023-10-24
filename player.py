@@ -47,12 +47,12 @@ class Player(Entity):
 
         self.image = self.get_image(0, 0,)
         self.image.set_colorkey([0, 0, 0])
-        self.nb_heart = 10
+        self.nb_heart = 11
+        self.current_heart = 11
         self.full_heart = pygame.transform.scale(pygame.image.load('Assets/UI/HUD/HUD_full_heart.png'), (40, 40))
         self.half_heart = pygame.transform.scale(pygame.image.load('Assets/UI/HUD/HUD_half_heart.png'), (40, 40))
         self.empty_heart = pygame.transform.scale(pygame.image.load('Assets/UI/HUD/HUD_empty_heart.png'), (40, 40))
         self.hearts = ["plein"] * self.nb_heart
-        self.current_heart = 20
         self.rubis_image = pygame.transform.scale(pygame.image.load("Assets/UI/HUD/HUD_rubis_green.png"), (35, 35))
         self.nb_rubis = 100
         self.font = pygame.font.Font("Assets/UI/Font/Font_zelda.otf", 30)
