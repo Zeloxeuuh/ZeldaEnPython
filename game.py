@@ -19,7 +19,10 @@ class Game:
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
         self.new_object = []
-        self.inventaire = Inventaire(1040, 720, 4, 5)
+        self.inventaire = Inventaire(750, 450, 4, 5)
+        self.current_drag = False
+        self.item_current_drag = None
+        self.offset_x, self.offset_y = 0, 0
 
         # Initialisation des objets
         self.green_rubis = self.create_item("Rubis vert", pygame.image.load("Assets/Item/Item_rubis_green.png"), "Ce rubis est seul")
@@ -71,9 +74,32 @@ class Game:
                         self.player.damage(0.5)
                     elif event.key == pygame.K_e:
                         self.inventaire.inventaire_ouvert = not self.inventaire.inventaire_ouvert
-                    elif event.key == pygame.K_g:
-                        # Crée un nouvel objet et ajoute-le à l'inventaire
+                    elif event.key == pygame.K_b:
                         Inventaire.add_to_inventory(self, self.bombe, self.inventaire)
+                    elif event.key == pygame.K_r:
+                        Inventaire.add_to_inventory(self, self.green_rubis, self.inventaire)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        for slot in self.inventaire.slots:
+                            if slot.rect.collidepoint(event.pos):
+                                if slot.objet:
+                                    self.item_current_drag = slot.objet
+                                    slot.objet = None
+                                    slot.full = False
+                                    self.current_drag = True
+                                    self.offset_x, self.offset_y = slot.rect.x - event.pos[0], slot.rect.y - event.pos[1]
+                elif event.type == pygame.MOUSEMOTION:
+                    if self.current_drag:
+                        self.item_current_drag.rect.x = event.pos[0] + self.offset_x
+                        self.item_current_drag.rect.y = event.pos[1] + self.offset_y
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if event.button == 1:
+                        for slot in self.inventaire.slots:
+                            if slot.rect.collidepoint(event.pos) and not slot.full:
+                                slot.objet = self.item_current_drag
+                                slot.full = True
+                                self.item_current_drag = None
+                                self.current_drag = False
 
             clock.tick(60)
 
