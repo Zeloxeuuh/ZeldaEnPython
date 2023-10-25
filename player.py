@@ -49,13 +49,16 @@ class Player(Entity):
         self.image.set_colorkey([0, 0, 0])
         self.nb_heart = 11
         self.current_heart = 11
+        self.hearts = ["plein"] * self.nb_heart
+        self.nb_rubis = 100
+
+        # Chargement des images de l'HUD + Taille + Font
         self.full_heart = pygame.transform.scale(pygame.image.load('Assets/UI/HUD/HUD_full_heart.png'), (40, 40))
         self.half_heart = pygame.transform.scale(pygame.image.load('Assets/UI/HUD/HUD_half_heart.png'), (40, 40))
         self.empty_heart = pygame.transform.scale(pygame.image.load('Assets/UI/HUD/HUD_empty_heart.png'), (40, 40))
-        self.hearts = ["plein"] * self.nb_heart
         self.rubis_image = pygame.transform.scale(pygame.image.load("Assets/UI/HUD/HUD_rubis_green.png"), (35, 35))
-        self.nb_rubis = 100
         self.font = pygame.font.Font("Assets/UI/Font/Font_zelda.otf", 30)
+
         self.text_surface = self.font.render(str(self.nb_rubis), True, (255, 255, 0))
         self.bg_rubis = pygame.Surface((120, 40), pygame.SRCALPHA)
         self.bg_rubis.set_alpha(100)
@@ -117,6 +120,7 @@ class Player(Entity):
 
         if self.current_heart <= 0:
             self.game_over()
+
 class NPC(Entity):
     def __init__(self, name, nb_points, dialog, enemy=False):
         super().__init__(name, 0, 0)

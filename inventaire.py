@@ -25,6 +25,7 @@ class Inventaire:
         self.nb_lignes = nb_lignes
         self.nb_colonnes = nb_colonnes
         self.slots = []
+        self.inventaire_ouvert = False
 
         slot_x = 310
         slot_y = 180
@@ -37,8 +38,6 @@ class Inventaire:
                 slot_x += slot_largeur + 10
             slot_x = 310
             slot_y += slot_hauteur + 10
-
-        self.inventaire_ouvert = False
 
     def afficher(self, fenetre):
         if self.inventaire_ouvert:

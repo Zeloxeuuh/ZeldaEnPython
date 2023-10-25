@@ -67,6 +67,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+                # Quand on appuie sur une touche
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                         self.map_manager.check_npc_collision(self.dialog_box)
@@ -78,6 +80,8 @@ class Game:
                         Inventaire.add_to_inventory(self, self.bombe, self.inventaire)
                     elif event.key == pygame.K_r:
                         Inventaire.add_to_inventory(self, self.green_rubis, self.inventaire)
+
+                # Event de la Souris
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         for slot in self.inventaire.slots:
