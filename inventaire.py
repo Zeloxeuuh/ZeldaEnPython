@@ -1,59 +1,67 @@
 import pygame
 
-class Item:
-    def __init__(self, nom, image, description):
-        self.nom = nom
-        self.image = image
-        self.description = description
-        self.rect = self.image.get_rect()
-
-class Slot:
-    def __init__(self, x, y, largeur, hauteur):
-        self.rect = pygame.Rect(x, y, largeur, hauteur)
-        self.objet = None
-        self.full = False
-
-    def afficher(self, fenetre):
-        pygame.draw.rect(fenetre, (0, 0, 0), self.rect, 2)
-        if self.objet:
-            fenetre.blit(pygame.transform.scale(self.objet.image, (64, 64)), (self.rect.x + 7.5, self.rect.y + 7))
-
 class Inventaire:
-    def __init__(self, largeur, hauteur, nb_lignes, nb_colonnes):
-        self.largeur = largeur
-        self.hauteur = hauteur
-        self.nb_lignes = nb_lignes
-        self.nb_colonnes = nb_colonnes
-        self.slots = []
+    def __init__(self, screen, width, height, row, col):
+        self.screen = screen
+        self.width = width
+        self.height = height
+        self.row = row
+        self.col = col
+        self.slot_size = 50
+        self.slot_spacing = 10
+        self.slots = None
+        self.bg_inv = None
         self.inventaire_ouvert = False
+        self.white = (255, 255, 255)
+        self.black = (0, 0, 0)
 
-        slot_x = 310
-        slot_y = 180
-        slot_largeur = 80
-        slot_hauteur = 80
+        # Background inventaire
+        self.initial_x = 1280
+        self.final_x = 940
+        self.rect_x = self.initial_x
 
-        for lig in range(nb_lignes):
-            for col in range(nb_colonnes):
-                self.slots.append(Slot(slot_x, slot_y, slot_largeur, slot_hauteur))
-                slot_x += slot_largeur + 10
-            slot_x = 310
-            slot_y += slot_hauteur + 10
+        # Slots inventaire
+        self.initial_slot_x = 1280
+        self.final_slot_x = 940
+        self.rect_slot_x = self.initial_slot_x
 
-    def afficher(self, fenetre):
+        self.speed = 7
+
+    def slot(self, x, y):
+        self.slots = pygame.draw.rect(self.screen, self.white, (x, y, self.slot_size, self.slot_size), 2)
+
+    def background(self):
+
+        # Animation
         if self.inventaire_ouvert:
-            pygame.draw.rect(fenetre, (255, 255, 255), (280, 150, self.largeur - 40, self.hauteur - 40))
+            if self.rect_x > self.final_x:
+                self.rect_x -= self.speed
+            else:
+                self.rect_x = self.final_x
 
-            for slot in self.slots:
-                slot.afficher(fenetre)
+        self.bg_inv = pygame.draw.rect(self.screen, self.black, (self.rect_x, 80, self.width - 40, self.height - 40))
 
-    def add_to_inventory(self, objet, inventaire):
-        for slot in inventaire.slots:
+    def draw_slot(self):
 
-            if not slot.full:
-                print(inventaire.slots)
-                slot.objet = objet
-                slot.full = True
-                break
+        # Animation
+        if self.inventaire_ouvert:
+            if self.rect_slot_x > self.final_slot_x:
+                self.rect_slot_x -= self.speed
+            else:
+                self.rect_slot_x = self.final_slot_x
 
-    def remove_inventory(self, objet, inventaire):
-        pass
+        for row in range(self.row):
+            for col in range(self.col):
+                x = col * (self.slot_size + self.slot_spacing)
+                y = row * (self.slot_size + self.slot_spacing)
+                self.slot(x + self.rect_slot_x + 25, y + 205)
+
+    def draw_inventory(self):
+        if self.inventaire_ouvert:
+            self.background()
+            self.draw_slot()
+
+        # Reset de l'animation
+        if not self.inventaire_ouvert:
+            self.rect_x = self.initial_x
+            self.rect_slot_x = self.initial_slot_x

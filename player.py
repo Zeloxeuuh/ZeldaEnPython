@@ -45,10 +45,11 @@ class Player(Entity):
     def __init__(self):
         super().__init__("Link", 0, 0)
 
+        # Attribut principal
         self.image = self.get_image(0, 0,)
         self.image.set_colorkey([0, 0, 0])
-        self.nb_heart = 11
-        self.current_heart = 11
+        self.nb_heart = 3
+        self.current_heart = 3
         self.hearts = ["plein"] * self.nb_heart
         self.nb_rubis = 100
 
@@ -59,6 +60,7 @@ class Player(Entity):
         self.rubis_image = pygame.transform.scale(pygame.image.load("Assets/UI/HUD/HUD_rubis_green.png"), (35, 35))
         self.font = pygame.font.Font("Assets/UI/Font/Font_zelda.otf", 30)
 
+        # Rendu
         self.text_surface = self.font.render(str(self.nb_rubis), True, (255, 255, 0))
         self.bg_rubis = pygame.Surface((120, 40), pygame.SRCALPHA)
         self.bg_rubis.set_alpha(100)
@@ -76,6 +78,7 @@ class Player(Entity):
         screen_info = pygame.display.Info()
         screen_width = screen_info.current_w
 
+        # Cœurs
         for state in self.hearts:
             if current_heart == 10:
                 x_heart = 20
@@ -93,6 +96,7 @@ class Player(Entity):
             x_heart += self.full_heart.get_width() + 1
             current_heart += 1
 
+        # Rubis
         ecran.blit(self.text_surface, (screen_width - screen_width + x_rupee + 30, y_rupee + 8))
         ecran.blit(self.rubis_image, (screen_width - screen_width + x_rupee - 1, y_rupee + 4))
 
