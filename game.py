@@ -5,7 +5,7 @@ import pyscroll
 from map import MapManager
 from player import Player
 from dialog import DialogBox
-from inventaire import Inventaire
+from inventaire import Item, Inventaire
 
 class Game:
     def __init__(self):
@@ -18,6 +18,16 @@ class Game:
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
         self.inventaire = Inventaire(self.screen, 380, 600, 7, 5)
+
+        # Initialisation des Items
+        self.apple = Item("Pomme", "Assets/Item/Item_apple.png", "Une délicieuse pomme", stackable=True, size=(60, 55))
+        self.bombe = Item("Bombe", "Assets/Item/Item_bombe.png", "Une puissante épée", stackable=True, size=(40, 40))
+
+        # Potions
+        self.empty_potion = Item("Fiole vide", "Assets/Item/Item_empty_potion.png", "Une fiole vide", stackable=True, size=(40, 40))
+        self.endurence_potion = Item("Fiole d'endurence", "Assets/Item/Item_endurence_potion.png", "Une fiole remplie d'un composant vert", stackable=True, size=(40, 40))
+        self.heal_potion = Item("Fiole de vie", "Assets/Item/Item_heal_potion.png", "Une fiole remplie d'un composant rouge", stackable=True, size=(40, 40))
+        self.strenght_potion = Item("Fiole de force", "Assets/Item/Item_strenght_potion.png", "Une fiole remplie d'un composant bleu", stackable=True, size=(40, 40))
 
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -47,12 +57,6 @@ class Game:
             self.map_manager.draw()
             self.dialog_box.render(self.screen)
             self.player.draw_hud(self.screen)
-
-            # if rect_x > final_x:
-            #     rect_x -= speed
-            # else:
-            #     rect_x = final_x
-
             self.inventaire.draw_inventory()
 
             for event in pygame.event.get():
@@ -67,6 +71,18 @@ class Game:
                         self.player.damage(0.5)
                     elif event.key == pygame.K_i:
                         self.inventaire.inventaire_ouvert = not self.inventaire.inventaire_ouvert
+                    elif event.key == pygame.K_a:
+                        self.inventaire.add_item(self.apple)
+                    elif event.key == pygame.K_b:
+                        self.inventaire.add_item(self.bombe)
+                    elif event.key == pygame.K_p:
+                        self.inventaire.add_item(self.heal_potion)
+                    elif event.key == pygame.K_m:
+                        self.inventaire.add_item(self.endurence_potion)
+                    elif event.key == pygame.K_l:
+                        self.inventaire.add_item(self.empty_potion)
+                    elif event.key == pygame.K_k:
+                        self.inventaire.add_item(self.strenght_potion)
 
             pygame.display.flip()
             clock.tick(60)
