@@ -19,7 +19,7 @@ class Game:
         self.dialog_box = DialogBox()
         self.inventaire = Inventaire(self.screen, 380, 600, 7, 5)
 
-        # Initialisation des Items
+        # Initialisiation des Items
         self.apple = Item("Pomme", "Assets/Item/Item_apple.png", "Une délicieuse pomme", stackable=True, size=(60, 55))
         self.bombe = Item("Bombe", "Assets/Item/Item_bombe.png", "Une puissante épée", stackable=True, size=(40, 40))
 
