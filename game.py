@@ -75,14 +75,10 @@ class Game:
                         self.inventaire.add_item(self.apple)
                     elif event.key == pygame.K_b:
                         self.inventaire.add_item(self.bombe)
-                    elif event.key == pygame.K_p:
+                    elif event.key == pygame.K_h:
                         self.inventaire.add_item(self.heal_potion)
-                    elif event.key == pygame.K_m:
-                        self.inventaire.add_item(self.endurence_potion)
-                    elif event.key == pygame.K_l:
+                    elif event.key == pygame.K_e:
                         self.inventaire.add_item(self.empty_potion)
-                    elif event.key == pygame.K_k:
-                        self.inventaire.add_item(self.strenght_potion)
 
             pygame.display.flip()
             clock.tick(60)
